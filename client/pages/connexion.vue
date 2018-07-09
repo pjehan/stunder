@@ -31,7 +31,7 @@ export default {
     name: 'Connexion',
     components: {
         'v-login': Login,
-        'v-register': Register 
+        'v-register': Register
     }
 }
 </script>
