@@ -4,14 +4,10 @@
             id="fieldset1"
             label="Email"
             label-for="input1"
-            :invalid-feedback="invalidFeedback"
-            :valid-feedback="validFeedback"
-            :state="state"
         >
             <b-form-input
                 type="email"
                 id="input1" 
-                :state="state" 
                 placeholder="Email" 
                 v-model.trim="email"
                 required
@@ -21,15 +17,11 @@
         <b-form-group
             id="fieldset1"
             label="Mot de passe"
-            label-for="input1"
-            :invalid-feedback="invalidFeedback"
-            :valid-feedback="validFeedback"
-            :state="state"
+            label-for="input2"
         >
             <b-form-input 
                 type="password" 
-                id="input1" 
-                :state="state" 
+                id="input2" 
                 placeholder="Mot de passe" 
                 v-model.trim="password"
                 required
@@ -42,7 +34,13 @@
 
 <script>
 export default {
-    name: 'Login'    
+    name: 'Login',
+    data () {
+        return {
+            email: '',
+            password: ''
+        }
+    }
 }
 </script>
 

@@ -1,32 +1,27 @@
 <template>
-    <b-form @submit.prevent="onSubmit" class="Register">
+    <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" class="Register">
         <b-form-group
             id="fieldset1"
-            label="Tu es ?*"
-            label-for="input1"
-            :invalid-feedback="invalidFeedback"
-            :valid-feedback="validFeedback"
-            :state="state"
+            label="Je suis*"
+            label-for="radios1"
         >
-            <b-form-select 
-                v-model="selected" 
+            <b-form-radio-group
+                id="radios1"
+                v-model="selected"
                 :options="options"
+                name="radioOpenions"
                 required
             />
         </b-form-group>
         <b-form-group
-            id="fieldset1"
+            id="fieldset2"
             label="Email*"
-            label-for="input1"
-            :invalid-feedback="invalidFeedback"
-            :valid-feedback="validFeedback"
-            :state="state"
+            label-for="input3"
         >
-            <b-form-input 
-                type="email" 
-                id="input1" 
-                :state="state" 
-                placeholder="Email" 
+            <b-form-input
+                type="email"
+                id="input3"
+                placeholder="Email"
                 v-model.trim="email"
                 required
             >
@@ -35,22 +30,19 @@
         <b-form-group
             id="fieldset1"
             label="Mot de passe*"
-            label-for="input1"
-            :invalid-feedback="invalidFeedback"
-            :valid-feedback="validFeedback"
-            :state="state"
+            label-for="input4"
         >
-            <b-form-input 
-                type="password" 
-                id="input1" 
-                :state="state" 
-                placeholder="Mot de passe" 
+            <b-form-input
+                type="password"
+                id="input4"
+                placeholder="Mot de passe"
                 v-model.trim="password"
                 required
             >
             </b-form-input>
         </b-form-group>
-        <b-button type="submit" variant="primary" required>Inscription</b-button>
+        <b-button type="submit" variant="primary">Inscription</b-button>
+        <b-button type="reset" variant="danger" class="ml-1">Reset</b-button>
     </b-form>
 </template>
 
@@ -60,11 +52,19 @@ export default {
     data () {
         return {
             selected: null,
+            email: '',
+            password: '',
             options: [
-                { value: null, text: 'Merci de séléctionner une valeur' },
                 { value: 'student', text: 'Etudiant' },
                 { value: 'company', text: 'Entreprise' }
             ]
+        }
+    },
+    methods: {
+        onReset () {
+            this.selected = null
+            this.email = ''
+            this.password = ''
         }
     }
 }
