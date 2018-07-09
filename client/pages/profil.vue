@@ -1,7 +1,8 @@
 <template>
     <div>
         <b-container md="4">
-        <h1>Erwan Huguet</h1>
+        <h1>Mon profil</h1>
+        <p>Erwan Champion</p>
         <p>blabla@blabla.fr</p>
         <p>06 66 66 66 66</p>
         <p>Niveau d'étude actuel</p>
