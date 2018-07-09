@@ -1,5 +1,5 @@
 <template>
-    <b-navbar toggleable="md" type="dark" variant="dark">
+    <b-navbar toggleable="md" type="dark" variant="primary">
 
         <b-container>
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -15,7 +15,7 @@
                     <b-nav-item-dropdown right>
                         <!-- Using button-content slot -->
                         <template slot="button-content">
-                        <em>User</em>
+                        <em>Val</em>
                         </template>
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
                         <b-dropdown-item href="#">Signout</b-dropdown-item>

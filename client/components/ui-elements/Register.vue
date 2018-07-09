@@ -1,5 +1,5 @@
 <template>
-    <b-form @submit.prevent="onSubmit" class="Register">
+    <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" class="Register">
         <b-form-group
             id="fieldset1"
             label="Tu es ?*"
@@ -41,7 +41,8 @@
             >
             </b-form-input>
         </b-form-group>
-        <b-button type="submit" variant="primary" required>Inscription</b-button>
+        <b-button type="submit" variant="primary">Inscription</b-button>
+        <b-button type="reset" variant="danger" class="ml-1">Reset</b-button>
     </b-form>
 </template>
 
@@ -57,6 +58,13 @@ export default {
                 { value: 'student', text: 'Etudiant' },
                 { value: 'company', text: 'Entreprise' }
             ]
+        }
+    },
+    methods: {
+        onReset () {
+            this.selected = null
+            this.email = ''
+            this.password = ''
         }
     }
 }
