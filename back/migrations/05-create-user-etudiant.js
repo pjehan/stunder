@@ -13,7 +13,7 @@ module.exports = {
         }
       },
       nv_etude_id: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
@@ -39,7 +39,7 @@ module.exports = {
       },
       dispo: {
         allowNull: false,
-        type: Sequelize.TINYINT
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

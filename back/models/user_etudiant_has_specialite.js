@@ -19,13 +19,13 @@ module.exports = (sequelize, DataTypes) => {
   user_etudiant_has_specialite.associate = function(models) {
     // associations can be defined here
     models.user_etudiant.belongsToMany(models.specialite, {
-      through: models.Like,
+      through: models.user_etudiant_has_specialite,
       foreignKey: 'user_id',
       otherKey: 'specialite_id',
     });
 
     models.specialite.belongsToMany(models.user_etudiant, {
-      through: models.Like,
+      through: models.user_etudiant_has_specialite,
       foreignKey: 'specialite_id',
       otherKey: 'user_id',
     });

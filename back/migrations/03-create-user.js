@@ -18,7 +18,11 @@ module.exports = {
       },
       active: {
         allowNull: false,
-        type: Sequelize.TINYINT
+        type: Sequelize.BOOLEAN
+      },
+      role: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
