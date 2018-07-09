@@ -3,7 +3,8 @@ module.exports = {
   ** Headers of the page
   */
   modules: [
-    ["nuxt-sass-resources-loader", "~/assets/css/main.scss"]
+    ["nuxt-sass-resources-loader", "~/assets/css/main.scss"],
+    'bootstrap-vue/nuxt'
   ],
   head: {
     title: 'stunder',
