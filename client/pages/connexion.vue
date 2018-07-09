@@ -9,16 +9,20 @@
             </template>
         </b-jumbotron>
         <b-container>
-            <b-card no-body>
-                <b-tabs small card v-model="tabIndex">
-                    <b-tab title="Connexion">
-                        <v-login />
-                    </b-tab>
-                    <b-tab title="Inscription">
-                        <v-register />
-                    </b-tab>
-                </b-tabs>
-            </b-card>
+            <b-row class="justify-content-md-center">
+                <b-col md="5"> 
+                    <b-card no-body>
+                        <b-tabs small card v-model="tabIndex">
+                            <b-tab title="Connexion">
+                                <v-login />
+                            </b-tab>
+                            <b-tab title="Inscription">
+                                <v-register />
+                            </b-tab>
+                        </b-tabs>
+                    </b-card>
+                </b-col>
+            </b-row>
         </b-container>
     </div>
 </template>
@@ -32,6 +36,11 @@ export default {
     components: {
         'v-login': Login,
         'v-register': Register 
+    },
+    data () {
+        return {
+            tabIndex: 0
+        }
     }
 }
 </script>
