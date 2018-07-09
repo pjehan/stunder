@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   user_admin.associate = function(models) {
     // associations can be defined here
+    user_admin.belongsTo(models.user, {
+      foreignKey: 'id',
+      onDelete: 'CASCADE'
+    });
   };
   return user_admin;
 };

@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   user_etudiant.associate = function(models) {
     // associations can be defined here
+    user_etudiant.belongsTo(models.user, {
+      foreignKey: 'id',
+      onDelete: 'CASCADE'
+    });
+    user_etudiant.belongsTo(models.nv_etude, {
+      foreignKey: 'nv_etude_id',
+      onDelete: 'CASCADE'
+    });
   };
   return user_etudiant;
 };

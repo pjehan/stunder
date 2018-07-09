@@ -1,40 +1,45 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('user_entreprises', {
+    return queryInterface.createTable('user_etudiants', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      nv_etude_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'nv_etudes',
+          key: 'id'
+        }
       },
       nom: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      adresse: {
+      prenom: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      ville: {
+      date_naissance: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      tel: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      cp: {
+      dispo: {
         allowNull: false,
-        type: Sequelize.STRING
-      },
-      logo: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      domaine: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      description: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.TINYINT
       },
       createdAt: {
         allowNull: false,
@@ -47,6 +52,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('user_entreprises');
+    return queryInterface.dropTable('user_etudiants');
   }
 };
