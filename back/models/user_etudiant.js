@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     });
     user_etudiant.belongsTo(models.nv_etude, {
       foreignKey: 'nv_etude_id',
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
+      allowNull: true
     });
   };
   return user_etudiant;
