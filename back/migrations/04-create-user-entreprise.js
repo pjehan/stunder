@@ -13,31 +13,31 @@ module.exports = {
         }
       },
       nom: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       adresse: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       ville: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       cp: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       logo: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       domaine: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       description: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       createdAt: {
