@@ -20,10 +20,6 @@ module.exports = {
     var tel = req.body.tel;
     var nv_etude_id = req.body.nv_etude_id;
 
-    if (nom == null || prenom == null || date_naissance == null || tel == null ) {
-      return res.status(400).json({ 'error': 'missing parameters' });
-    }
-
     asyncLib.waterfall([
       function(done) {
         models.user.findOne({
