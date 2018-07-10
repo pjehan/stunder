@@ -12,7 +12,7 @@
         </b-row>
         </b-col>
         <b-col cols="12" md="2">
-          <b-button>VOIR L'ANNONCE</b-button>
+          <b-button size="sm" primary>VOIR<br>L'ANNONCE</b-button>
         </b-col>
       </b-row>
     </b-card>
