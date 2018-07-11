@@ -2,6 +2,7 @@
 var express     = require('express');
 var bodyParser  = require('body-parser');
 var apiRouter   = require('./apiRouter').router;
+var cors = require ('cors');
 
 // Instantiate server
 var server = express();

@@ -22,23 +22,23 @@ module.exports = {
         }
       },
       nom: {
-        allowNull: false,
+        defaultValue: '',
         type: Sequelize.STRING
       },
       prenom: {
-        allowNull: false,
+        defaultValue: '',
         type: Sequelize.STRING
       },
       date_naissance: {
-        allowNull: false,
+        defaultValue: null,
         type: Sequelize.DATE
       },
       tel: {
-        allowNull: false,
+        defaultValue: '',
         type: Sequelize.STRING
       },
       dispo: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN
       },
       createdAt: {
