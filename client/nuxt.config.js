@@ -4,7 +4,8 @@ module.exports = {
   */
   modules: [
     ["nuxt-sass-resources-loader", "~/assets/css/main.scss"],
-    'bootstrap-vue/nuxt'
+    'bootstrap-vue/nuxt',
+    '@nuxtjs/axios'
   ],
   head: {
     title: 'stunder',

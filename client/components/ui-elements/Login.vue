@@ -1,5 +1,19 @@
 <template>
-    <b-form @submit.prevent="onSubmit" class="Login">
+<div class="Login">
+    <v-loader :show="loading" />
+    <transition v-if="success" name="fadeOutDelay">
+        <b-alert show variant="success">
+            <h4 class="alert-heading">Bravo !</h4>
+            <p>
+                Votre compte à bien été crée.
+            </p>
+            <hr>
+            <p class="mb-0">
+                Vous allez être connecté dans quelques instants, merci de bien vouloir remplir votre profil.
+            </p>
+        </b-alert>
+    </transition>
+    <b-form v-else @submit.prevent="onSubmit(postData)" class="Login">
         <b-form-group
             id="fieldset1"
             label="Email"
@@ -9,7 +23,7 @@
                 type="email"
                 id="input1" 
                 placeholder="Email" 
-                v-model.trim="email"
+                v-model.trim="postData.mail"
                 required
             >
             </b-form-input>
@@ -23,22 +37,58 @@
                 type="password" 
                 id="input2" 
                 placeholder="Mot de passe" 
-                v-model.trim="password"
+                v-model.trim="postData.mot_de_passe"
                 required
             >
             </b-form-input>
         </b-form-group>
         <b-button type="submit" variant="primary">Connexion</b-button>
     </b-form>
+</div>
 </template>
 
 <script>
+import api from '~/assets/api/api'
+import Cookie from 'js-cookie'
+import jwtDecode from 'jwt-decode'
+import Loader from '~/components/ui-elements/Loader'
+
 export default {
     name: 'Login',
+    components: {
+        'v-loader': Loader
+    },
     data () {
         return {
-            email: '',
-            password: ''
+            postData: {
+                mail: '',
+                mot_de_passe: ''
+            },
+            success: false,
+            loading: false
+        }
+    },
+    methods: {
+        async onSubmit (data) {
+            this.loading = true
+            let loginPostData = JSON.stringify(data)
+
+            await api.login(loginPostData).then(({ user }) => {
+                let decodedToken = null
+
+                if (user) {
+                    this.success = true
+                    decodedToken = jwtDecode(user.token)
+
+                    this.$store.commit('updateToken', user.token)
+                    this.$store.commit('updateId', decodedToken.userId)
+
+                    Cookie.set('auth', user.token, { expires: 365 })
+
+                    this.loading = false
+                    this.$router.push('/profil')
+                }
+            }).catch(err => console.log(err))
         }
     }
 }
