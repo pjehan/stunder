@@ -1,0 +1,67 @@
+// fadeTransY
+.fadeTransY-enter-active, .fadeTransY-leave-active {
+    transition: transform 200ms ease-in-out,
+                opacity 200ms ease-in-out;
+}
+
+.fadeTransY-enter, .fadeTransY-leave-to {
+    transform: translateY(30px);
+    opacity: 0;
+}
+
+// fadeTransX
+.fadeTransX-enter-active, .fadeTransX-leave-active {
+    transition: transform 300ms ease-in-out,
+                opacity 300ms ease-in-out;
+}
+
+.fadeTransX-enter-active {
+    transition-delay: 350ms;
+}
+
+.fadeTransX-enter, .fadeTransX-leave-to {
+    transform: translateX(50px);
+    opacity: 0;
+}
+
+// fadeOut
+.fadeOut-enter-active {
+    transition: opacity 1s ease-in-out;
+}
+
+.fadeOut-leave-active,
+.fadeOut-leave-to {
+    transition: opacity 500ms ease;
+}
+
+.fadeOut-enter, .fadeOut-leave-to {
+    opacity: 0;
+}
+
+// fadeOut
+.fadeOutDelay-enter-active {
+    transition: opacity 1s ease-in-out;
+    transition-delay: 400ms; 
+}
+
+.fadeOutDelay-leave-active,
+.fadeOutDelay-leave-to {
+    transition: opacity 500ms ease;
+}
+
+.fadeOutDelay-enter, .fadeOutDelay-leave-to {
+    opacity: 0;
+}
+
+// fadeIn
+
+.fadeIn-enter-active {
+    transition: none;
+  }
+  .fadeIn-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .fadeIn-leave, .fadeIn-leave-to {
+    opacity: 0;
+  }
+
