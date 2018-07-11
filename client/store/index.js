@@ -9,12 +9,16 @@ const createStore = () => {
     state: {
       auth: {
         id: null,
-        token: null
+        token: null,
+        role: null
       }
     },
     mutations: {
       updateToken (state, payload) {
         state.auth.token = payload
+      },
+      updateRole (state, payload) {
+        state.auth.role = payload
       },
       updateUsername (state, payload) {
         state.auth.username = payload
@@ -31,17 +35,18 @@ const createStore = () => {
       async nuxtServerInit ({ commit }, { req }) {
         let accessToken = null
         let userId = null
+        let role = null
     
         // If cookies
         if (req.headers.cookie) {
-  
-          let parsed = cookieparser.parse(req.headers.cookie)
-          accessToken = parsed.auth
-          userId = jwtDecode(accessToken).userId
-        //   currentUser = await api.getCurrentUser(username)
+            let parsed = cookieparser.parse(req.headers.cookie)
+            accessToken = parsed.auth
+            userId = jwtDecode(accessToken).userId
+            role = parsed.role
         }
 
         commit('updateToken', accessToken)
+        commit('updateRole', role)
         commit('updateId', userId)
       }
     }

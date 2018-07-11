@@ -18,6 +18,10 @@ import Login from '~/components/ui-elements/Login'
 import Register from '~/components/ui-elements/Register'
 
 export default {
+    fetch ({ store, redirect }) {
+        if (store.state.auth.token) return
+        redirect(301, '/connexion')
+    },
     name: 'Connexion',
     components: {
         'v-login': Login,

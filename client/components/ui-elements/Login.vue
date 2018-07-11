@@ -3,14 +3,8 @@
     <v-loader :show="loading" />
     <transition v-if="success" name="fadeOutDelay">
         <b-alert show variant="success">
-            <h4 class="alert-heading">Bravo !</h4>
-            <p>
-                Votre compte à bien été crée.
-            </p>
-            <hr>
-            <p class="mb-0">
-                Vous allez être connecté dans quelques instants, merci de bien vouloir remplir votre profil.
-            </p>
+            <h4 class="alert-heading">Félicitations !</h4>
+            <p>Vous êtes bien connectés</p>
         </b-alert>
     </transition>
     <b-form v-else @submit.prevent="onSubmit(postData)" class="Login">
@@ -81,9 +75,11 @@ export default {
                     decodedToken = jwtDecode(user.token)
 
                     this.$store.commit('updateToken', user.token)
+                    this.$store.commit('updateRole', user.role)
                     this.$store.commit('updateId', decodedToken.userId)
 
                     Cookie.set('auth', user.token, { expires: 365 })
+                    Cookie.set('role', user.role, { expires: 365 })
 
                     this.loading = false
                     this.$router.push('/profil')

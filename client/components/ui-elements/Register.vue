@@ -122,9 +122,11 @@ export default {
                             }
 
                             this.$store.commit('updateToken', user.token)
+                            this.$store.commit('updateRole', user.role)
                             this.$store.commit('updateId', decodedToken.userId)
 
                             Cookie.set('auth', user.token, { expires: 365 })
+                            Cookie.set('role', user.role, { expires: 365 })
 
                             this.$router.push('/profil')
                         }
