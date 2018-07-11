@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   nv_etude.associate = function(models) {
     // associations can be defined here
     nv_etude.hasMany(models.user_etudiant, {
-       foreignKey: 'user_id',
+       foreignKey: 'id',
        onDelete: 'CASCADE'
     });
   };

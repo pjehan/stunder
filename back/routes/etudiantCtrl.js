@@ -57,5 +57,54 @@ module.exports = {
         return res.status(500).json({ 'error': 'cannot post etudiant' });
       }
     });
+  },
+  list_etudiant: function(req, res) {
+    // Getting auth header
+    var headerAuth  = req.headers['authorization'];
+    var userId      = jwtUtils.getUserId(headerAuth);
+
+    var fields  = req.query.fields;
+    var limit   = parseInt(req.query.limit);
+    var offset  = parseInt(req.query.offset);
+    var order   = req.query.order;
+
+    if (limit > ITEMS_LIMIT) {
+      limit = ITEMS_LIMIT;
+    }
+
+    asyncLib.waterfall([
+      function(done) {
+        models.user.findOne({
+          where: { id: userId }
+        })
+        .then(function(userFound) {
+          done(null, userFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      },
+      function(userFound, done) {
+        if(userFound) {
+          models.user_etudiant.findAll({
+            order: [(order != null) ? order.split(':') : ['id', 'ASC']],
+            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+            limit: (!isNaN(limit)) ? limit : null,
+            offset: (!isNaN(offset)) ? offset : null
+          })
+          .then(function(listEtudiants) {
+            done(listEtudiants);
+          });
+        } else {
+          res.status(404).json({ 'error': 'user not found' });
+        }
+      },
+    ], function(listEtudiants) {
+      if (listEtudiants) {
+        return res.status(201).json(listEtudiants);
+      } else {
+        return res.status(500).json({ 'error': 'no etudiants' });
+      }
+    });
   }
 }
