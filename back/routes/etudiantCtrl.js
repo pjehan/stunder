@@ -106,5 +106,56 @@ module.exports = {
         return res.status(500).json({ 'error': 'no etudiants' });
       }
     });
+  },
+  put_etudiant: function(req, res) {
+    // Getting auth header
+    var headerAuth  = req.headers['authorization'];
+    var userId      = jwtUtils.getUserId(headerAuth);
+
+    // Params
+    var nom = req.body.nom;
+    var prenom = req.body.prenom;
+    var date_naissance = req.body.date_naissance;
+    var tel = req.body.tel;
+    var dispo = req.body.dispo;
+    var nv_etude_id = req.body.nv_etude_id;
+
+    asyncLib.waterfall([
+      function(done) {
+        models.user_etudiant.findOne({
+          where: { id: userId }
+        })
+        .then(function(userFound) {
+          done(null, userFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      },
+      function(userFound, done) {
+        if(userFound) {
+          userFound.update({
+            nom: (nom ? nom : userFound.nom),
+            prenom: (prenom ? prenom : userFound.prenom),
+            date_naissance: (date_naissance ? date_naissance : userFound.date_naissance),
+            tel: (tel ? tel : userFound.tel),
+            dispo: (dispo ? dispo : userFound.dispo),
+            nv_etude_id: (nv_etude_id ? nv_etude_id : userFound.nv_etude_id)
+          }).then(function() {
+            done(userFound);
+          }).catch(function(err) {
+            res.status(500).json({ 'error': 'cannot update user_etudiant' });
+          });
+        } else {
+          res.status(404).json({ 'error': 'user_etudiant not found' });
+        }
+      },
+    ], function(userFound) {
+      if (userFound) {
+        return res.status(201).json(userFound);
+      } else {
+        return res.status(500).json({ 'error': 'cannot update user_etudiant' });
+      }
+    });
   }
 }

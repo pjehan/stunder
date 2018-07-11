@@ -109,5 +109,58 @@ module.exports = {
         return res.status(500).json({ 'error': 'no etudiants' });
       }
     });
+  },
+  put_entreprise: function(req, res) {
+    // Getting auth header
+    var headerAuth  = req.headers['authorization'];
+    var userId      = jwtUtils.getUserId(headerAuth);
+
+    // Params
+    var nom = req.body.nom;
+    var adresse = req.body.adresse;
+    var cp = req.body.cp;
+    var ville = req.body.ville;
+    var logo = req.body.logo;
+    var domaine = req.body.domaine;
+    var description = req.body.description;
+
+    asyncLib.waterfall([
+      function(done) {
+        models.user_entreprise.findOne({
+          where: { id: userId }
+        })
+        .then(function(userFound) {
+          done(null, userFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      },
+      function(userFound, done) {
+        if(userFound) {
+          userFound.update({
+            nom: (nom ? nom : userFound.nom),
+            adresse: (adresse ? adresse : userFound.adresse),
+            cp: (cp ? cp : userFound.cp),
+            ville: (ville ? ville : userFound.ville),
+            logo: (logo ? logo : userFound.logo),
+            domaine: (domaine ? domaine : userFound.domaine),
+            description: (description ? description : userFound.description)
+          }).then(function() {
+            done(userFound);
+          }).catch(function(err) {
+            res.status(500).json({ 'error': 'cannot update user_entreprise' });
+          });
+        } else {
+          res.status(404).json({ 'error': 'user_entreprise not found' });
+        }
+      },
+    ], function(userFound) {
+      if (userFound) {
+        return res.status(201).json(userFound);
+      } else {
+        return res.status(500).json({ 'error': 'cannot update user_entreprise' });
+      }
+    });
   }
 }

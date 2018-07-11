@@ -15,9 +15,11 @@
 
    apiRouter.route('/users/etudiant/').post(etudiantCtrl.add_etudiant);
    apiRouter.route('/users/etudiants/').get(etudiantCtrl.list_etudiant);
+   apiRouter.route('/users/etudiant/').put(etudiantCtrl.put_etudiant);
 
    apiRouter.route('/users/entreprise/').post(entrepriseCtrl.add_entreprise);
    apiRouter.route('/users/entreprises/').get(entrepriseCtrl.list_entreprise);
+   apiRouter.route('/users/entreprise/').put(entrepriseCtrl.put_entreprise);
 
    // nv_etude routes
    apiRouter.route('/nv_user/').post(nv_etudeCtrl.add_nv_etude);
