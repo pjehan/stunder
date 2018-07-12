@@ -128,7 +128,7 @@ export default {
                             Cookie.set('auth', user.token, { expires: 365 })
                             Cookie.set('role', user.role, { expires: 365 })
 
-                            this.$router.push('/profil')
+                            this.$router.push(`/users/${decodedToken.userId}`)
                         }
                     }).catch(err => console.log(err))
                 }

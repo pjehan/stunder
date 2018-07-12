@@ -82,7 +82,7 @@ export default {
                     Cookie.set('role', user.role, { expires: 365 })
 
                     this.loading = false
-                    this.$router.push('/profil')
+                    this.$router.push(`/users/${decodedToken.userId}`)
                 }
             }).catch(err => console.log(err))
         }
