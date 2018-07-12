@@ -29,6 +29,7 @@ const createStore = () => {
       logout (state) {
         state.auth.id = null
         state.auth.token = null
+        state.auth.role = null
       }
     },
     actions: {
@@ -46,7 +47,7 @@ const createStore = () => {
         }
 
         commit('updateToken', accessToken)
-        commit('updateRole', role)
+        commit('updateRole', parseInt(role))
         commit('updateId', userId)
       }
     }

@@ -1,7 +1,9 @@
 <template>
   <div class="App">
     <Nav />
-    <nuxt/>
+    <transition name="fadeOutDelay">
+      <nuxt/>
+    </transition>
   </div>
 </template>
 

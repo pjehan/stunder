@@ -4,6 +4,8 @@ export const config = {
         register: '/api/users/register',
         login: '/api/users/login',
         usersStudent: '/api/users/etudiant',
-        usersCompany: '/api/users/entreprise'
+        usersCompany: '/api/users/entreprise',
+        getUsersStudent: '/api/users/etudiants',
+        getUsersCompany: '/api/users/entreprises'
     }
 }

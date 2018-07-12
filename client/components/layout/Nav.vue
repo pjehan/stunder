@@ -11,9 +11,9 @@
                     <b-nav-item-dropdown v-if="$store.state.auth.token" right>
                         <!-- Using button-content slot -->
                         <template slot="button-content">
-                        <em>{{ 'Bonjour matricule ' + $store.state.auth.id }}</em>
+                            <em>{{ 'Bonjour matricule ' + $store.state.auth.id }}</em>
                         </template>
-                        <b-dropdown-item to="/profil">Profil</b-dropdown-item>
+                        <b-dropdown-item :to="`/users/${$store.state.auth.id}`">Profil</b-dropdown-item>
                         <b-dropdown-item @click="logout" href="#">Déconnexion</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item v-else to="/connexion">Connexion</b-nav-item>
@@ -33,6 +33,9 @@ export default {
         logout () {
             this.$store.commit('logout')
             Cookie.remove('auth')
+            Cookie.remove('role')
+
+            this.$router.push('/connexion')
         }
     }
 }
