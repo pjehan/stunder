@@ -61,6 +61,49 @@ module.exports = {
       }
     });
   },
+  get_entreprise: function(req, res) {
+    // Getting auth header
+    var headerAuth  = req.headers['authorization'];
+    var userId      = jwtUtils.getUserId(headerAuth);
+
+    // Params
+    var entrepriseId = parseInt(req.params.entrepriseId);
+
+    if (entrepriseId <= 0) {
+      return res.status(400).json({ 'error': 'invalid parameters' });
+    }
+
+    asyncLib.waterfall([
+      function(done) {
+        models.user.findOne({
+          where: { id: userId }
+        })
+        .then(function(userFound) {
+          done(null, userFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      },
+      function(userFound, done) {
+        models.user_entreprise.findOne({
+          where: { id: entrepriseId }
+        })
+        .then(function(entrepriseFound) {
+          done(entrepriseFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      }
+    ], function(entrepriseFound) {
+      if (entrepriseFound) {
+        return res.status(201).json(entrepriseFound);
+      } else {
+        return res.status(500).json({ 'error': 'no etudiants' });
+      }
+    });
+  },
   list_entreprise: function(req, res) {
     // Getting auth header
     var headerAuth  = req.headers['authorization'];

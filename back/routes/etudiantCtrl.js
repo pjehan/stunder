@@ -90,7 +90,11 @@ module.exports = {
             order: [(order != null) ? order.split(':') : ['id', 'ASC']],
             attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
             limit: (!isNaN(limit)) ? limit : null,
-            offset: (!isNaN(offset)) ? offset : null
+            offset: (!isNaN(offset)) ? offset : null,
+            include: [{
+              model: models.nv_etude,
+              attributes: [ 'nom' ]
+            }]
           })
           .then(function(listEtudiants) {
             done(listEtudiants);
@@ -102,6 +106,53 @@ module.exports = {
     ], function(listEtudiants) {
       if (listEtudiants) {
         return res.status(201).json(listEtudiants);
+      } else {
+        return res.status(500).json({ 'error': 'no etudiants' });
+      }
+    });
+  },
+  get_etudiant: function(req, res) {
+    // Getting auth header
+    var headerAuth  = req.headers['authorization'];
+    var userId      = jwtUtils.getUserId(headerAuth);
+
+    // Params
+    var etudiantId = parseInt(req.params.etudiantId);
+
+    if (etudiantId <= 0) {
+      return res.status(400).json({ 'error': 'invalid parameters' });
+    }
+
+    asyncLib.waterfall([
+      function(done) {
+        models.user.findOne({
+          where: { id: userId }
+        })
+        .then(function(userFound) {
+          done(null, userFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      },
+      function(userFound, done) {
+        models.user_etudiant.findOne({
+          where: { id: etudiantId },
+          include: [{
+            model: models.nv_etude,
+            attributes: [ 'nom' ]
+          }]
+        })
+        .then(function(etudiantFound) {
+          done(etudiantFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify etudiant' });
+        });
+      }
+    ], function(etudiantFound) {
+      if (etudiantFound) {
+        return res.status(201).json(etudiantFound);
       } else {
         return res.status(500).json({ 'error': 'no etudiants' });
       }
