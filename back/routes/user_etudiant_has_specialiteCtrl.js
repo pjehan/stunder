@@ -32,11 +32,153 @@ module.exports = {
           return res.status(500).json({ 'error': 'unable to verify user' });
         });
       },
-    ], function(userFound) {
-      if (userFound) {
-        return res.status(201).json(userFound);
+      function(userFound, done) {
+        if(userFound) {
+          models.specialite.findOne({
+            where: { id: specialiteId }
+          })
+          .then(function(specialiteFound) {
+            done(null, userFound, specialiteFound);
+          });
+        } else {
+          res.status(404).json({ 'error': 'specialite not found' });
+        }
+      },
+      function(userFound, specialiteFound, done)  {
+        if(specialiteFound) {
+          models.user_etudiant_has_specialite.findOne({
+            where: {
+              user_id: userId,
+              specialite_id: specialiteId
+            }
+          })
+          .then(function(etudiant_specialiteFound) {
+            done(null, userFound, specialiteFound, etudiant_specialiteFound);
+          });
+        } else {
+          res.status(404).json({ 'error': 'user_etudiant_has_specialiteFoundFound not found' });
+        }
+      },
+      function(userFound, specialiteFound, etudiant_specialiteFound, done) {
+        if(!etudiant_specialiteFound) {
+          models.user_etudiant_has_specialite.create({
+            user_id: userId,
+            specialite_id: specialiteId
+          })
+          .then(function(etudiant_specialiteAdd) {
+            done(etudiant_specialiteAdd);
+          });
+        } else {
+          res.status(404).json({ 'error': 'user_etudiant_has_specialiteFoundFound not found' });
+        }
+      },
+    ], function(etudiant_specialiteAdd) {
+      if (etudiant_specialiteAdd) {
+        return res.status(201).json(etudiant_specialiteAdd);
       } else {
-        return res.status(500).json({ 'error': 'cannot atribute spacialite' });
+        return res.status(500).json({ 'error': 'cannot post nv_etude' });
+      }
+    });
+  },
+  list_etudiants_specialites: function(req, res) {
+    // Getting auth header
+    var headerAuth  = req.headers['authorization'];
+    var userId      = jwtUtils.getUserId(headerAuth);
+
+    var fields  = req.query.fields;
+    var limit   = parseInt(req.query.limit);
+    var offset  = parseInt(req.query.offset);
+    var order   = req.query.order;
+
+    if (limit > ITEMS_LIMIT) {
+      limit = ITEMS_LIMIT;
+    }
+
+    asyncLib.waterfall([
+      function(done) {
+        models.user.findOne({
+          where: { id: userId }
+        })
+        .then(function(userFound) {
+          done(null, userFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      },
+      function(userFound, done) {
+        if(userFound) {
+          models.user_etudiant_has_specialite.findAll({
+            order: [(order != null) ? order.split(':') : ['user_id', 'ASC']],
+            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+            limit: (!isNaN(limit)) ? limit : null,
+            offset: (!isNaN(offset)) ? offset : null
+          })
+          .then(function(listEtudiantSpecialite) {
+            done(listEtudiantSpecialite);
+          });
+        } else {
+          res.status(404).json({ 'error': 'user_etudiant not found' });
+        }
+      },
+    ], function(listEtudiantSpecialite) {
+      if (listEtudiantSpecialite) {
+        return res.status(201).json(listEtudiantSpecialite);
+      } else {
+        return res.status(500).json({ 'error': 'no etudiants' });
+      }
+    });
+  },
+  list_etudiant_specialites: function(req, res) {
+    // Params
+    var userId = parseInt(req.params.userId);
+
+    if (userId <= 0) {
+      return res.status(400).json({ 'error': 'invalid parameters' });
+    }
+
+    var fields  = req.query.fields;
+    var limit   = parseInt(req.query.limit);
+    var offset  = parseInt(req.query.offset);
+    var order   = req.query.order;
+
+    if (limit > ITEMS_LIMIT) {
+      limit = ITEMS_LIMIT;
+    }
+
+    asyncLib.waterfall([
+      function(done) {
+        models.user.findOne({
+          where: { id: userId }
+        })
+        .then(function(userFound) {
+          done(null, userFound);
+        })
+        .catch(function(err) {
+          return res.status(500).json({ 'error': 'unable to verify user' });
+        });
+      },
+      function(userFound, done) {
+        if (userFound) {
+          models.user_etudiant_has_specialite.findAll({
+            where: { user_id: userId },
+            order: [(order != null) ? order.split(':') : ['user_id', 'ASC']],
+            attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+            limit: (!isNaN(limit)) ? limit : null,
+            offset: (!isNaN(offset)) ? offset : null
+          })
+          .then(function(listEtudiantSpecialite) {
+            done(listEtudiantSpecialite);
+          });
+        } else {
+          return res.status(500).json({ 'error': 'user not found' });
+        }
+      },
+    ], function(listEtudiantSpecialite) {
+      if (listEtudiantSpecialite) {
+        return res.status(201).json(listEtudiantSpecialite);
+      } else {
+        return res.status(500).json({ 'error': 'no etudiants' });
       }
     });
   }

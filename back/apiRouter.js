@@ -33,6 +33,8 @@
 
    // etudiant specialite routes
    apiRouter.route('/users/etudiant/specialite/:specialiteId').post(user_etudiant_has_specialiteCtrl.add_user_etudiant_specialite);
+   apiRouter.route('/users/etudiants/specialites/').get(user_etudiant_has_specialiteCtrl.list_etudiants_specialites);
+   apiRouter.route('/users/etudiant/:userId/specialites/').get(user_etudiant_has_specialiteCtrl.list_etudiant_specialites);
 
    return apiRouter
  })();
